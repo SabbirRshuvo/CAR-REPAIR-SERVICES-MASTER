@@ -1,5 +1,8 @@
 import React from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import auth from "../../../../firebase";
 function Header() {
+    const [user] = useAuthState(auth);
     return (
         <nav className="bg-gray-800 sticky top-0 ">
             <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">

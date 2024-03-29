@@ -1,8 +1,12 @@
 import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "../../../../firebase";
+import { signOut } from "firebase/auth";
 function Header() {
     const [user] = useAuthState(auth);
+    const handleSignOut = () => {
+        signOut(auth);
+    };
     return (
         <nav className="bg-gray-800 sticky top-0 ">
             <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -37,12 +41,22 @@ function Header() {
                                 >
                                     About
                                 </a>
-                                <a
-                                    href="/login"
-                                    className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
-                                >
-                                    LogIn
-                                </a>
+                                {user ? (
+                                    <button
+                                        onClick={handleSignOut}
+                                        href="/login"
+                                        className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                                    >
+                                        Sign out
+                                    </button>
+                                ) : (
+                                    <a
+                                        href="/login"
+                                        className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                                    >
+                                        LogIn
+                                    </a>
+                                )}
                             </div>
                         </div>
                     </div>

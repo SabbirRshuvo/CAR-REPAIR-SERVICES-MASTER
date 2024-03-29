@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import auth from "../../../firebase";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import SocialLogin from "../SocialLogin/SocialLogin";
 
 function Login() {
     const emailRef = useRef("");
@@ -11,8 +12,9 @@ function Login() {
         useSignInWithEmailAndPassword(auth);
 
     if (user) {
-        navigate("/home");
+        navigate("/");
     }
+
     const handleSubmit = (event) => {
         event.preventDefault();
         const email = emailRef.current.value;
@@ -23,9 +25,12 @@ function Login() {
         navigate("/register");
     };
     return (
-        <div className="border-2 rounded-lg container mx-auto m-2 p-2">
+        <div className="container mx-auto">
             <h2 className="text-2xl text-blue-300 m-2">Login Page</h2>
-            <form onSubmit={handleSubmit}>
+            <form
+                className="border-2 rounded-lg container mx-auto m-2 p-2"
+                onSubmit={handleSubmit}
+            >
                 <input
                     ref={emailRef}
                     className="border-2 rounded-lg text-center p-2 m-2 w-1/4"
@@ -53,6 +58,7 @@ function Login() {
                     Registar
                 </span>
             </p>
+            <SocialLogin />
         </div>
     );
 }

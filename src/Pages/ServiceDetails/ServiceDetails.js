@@ -5,10 +5,14 @@ function ServiceDetails() {
     const { serviceId } = useParams();
     return (
         <div>
-            <h2>Experts number ..{serviceId}</h2>
+            <h2 className="text-3xl text-red-400 m-2">
+                Experts number ..{serviceId}
+            </h2>
             <div>
                 <Link to="/checkout">
-                    <button>Procedd Checkout</button>
+                    <button className="border-2 rounded-lg p-2">
+                        Proceed Checkout
+                    </button>
                 </Link>
             </div>
         </div>

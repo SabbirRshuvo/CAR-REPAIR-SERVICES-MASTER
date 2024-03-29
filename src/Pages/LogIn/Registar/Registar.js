@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import auth from "../../../firebase";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
+import SocialLogin from "../SocialLogin/SocialLogin";
 
 function Registar() {
     const [createUserWithEmailAndPassword] =
@@ -23,9 +24,9 @@ function Registar() {
         }
     };
     return (
-        <div className="border-2 rounded-lg container mx-auto m-2 p-2">
+        <div className="container mx-auto">
             <h2 className="text-2xl text-blue-400 m-2">Please Registar</h2>
-            <form onSubmit={handleRegistar}>
+            <form className="border-2 rounded-lg p-2" onSubmit={handleRegistar}>
                 <input
                     className="border-2 rounded-lg
                  p-2 w-1/4 text-center"
@@ -62,6 +63,7 @@ function Registar() {
                     Login
                 </span>
             </p>
+            <SocialLogin />
         </div>
     );
 }

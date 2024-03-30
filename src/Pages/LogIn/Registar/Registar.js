@@ -5,6 +5,7 @@ import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import SocialLogin from "../SocialLogin/SocialLogin";
 
 function Registar() {
+    const [agree, setAgree] = useState(false);
     const [createUserWithEmailAndPassword] =
         useCreateUserWithEmailAndPassword(auth);
     const navigate = useNavigate();
@@ -16,8 +17,9 @@ function Registar() {
     };
     const handleRegistar = (event) => {
         event.preventDefault();
+        navigate("/home");
 
-        if (email !== "" && password !== "") {
+        if ((agree, email !== "" && password !== "")) {
             createUserWithEmailAndPassword(email, password);
         } else {
             alert("Please fill all the fields");
@@ -49,16 +51,29 @@ function Registar() {
                 />
                 <br />
                 <input
-                    className="cursor-pointer border-2 rounded-lg text-center p-2 m-2  w-1/4"
+                    disabled={!agree}
+                    className="cursor-pointer border-2 rounded-lg text-center p-2 m-2  w-1/4 bg-green-400"
                     type="submit"
                     value="Register"
                 />
             </form>
+            <input
+                onClick={() => setAgree(!agree)}
+                type="checkbox"
+                name="terms"
+                className="valid:border-green-500 m-2"
+            />
+            <label
+                className={agree ? "text-green-500 " : " text-red-500"}
+                htmlFor="terms"
+            >
+                Accept Terms and Conditions
+            </label>
             <p className="text-blue-600">
                 Already have an account?{" "}
                 <span
                     onClick={navigateLogin}
-                    className="cursor-pointer text-red-400 font-bold"
+                    className="cursor-pointer text-green-400 font-bold"
                 >
                     Login
                 </span>

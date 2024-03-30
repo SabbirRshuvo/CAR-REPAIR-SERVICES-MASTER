@@ -1,16 +1,22 @@
 import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import auth from "../../../firebase";
-import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import {
+    useSendPasswordResetEmail,
+    useSignInWithEmailAndPassword,
+} from "react-firebase-hooks/auth";
 import SocialLogin from "../SocialLogin/SocialLogin";
 
 function Login() {
     const emailRef = useRef("");
     const passwordRef = useRef("");
     const navigate = useNavigate();
-    const [signInWithEmailAndPassword, user] =
+    const [signInWithEmailAndPassword, user, error] =
         useSignInWithEmailAndPassword(auth);
-
+    let errorElement;
+    if (error) {
+        errorElement = <p className="text-red-300">Error: {error.message}</p>;
+    }
     if (user) {
         navigate("/");
     }
@@ -23,6 +29,13 @@ function Login() {
     };
     const navigateRegister = (event) => {
         navigate("/register");
+    };
+    const [sendPasswordResetEmail, sending] = useSendPasswordResetEmail(auth);
+
+    const resetPassword = async () => {
+        const email = emailRef.current.value;
+        await sendPasswordResetEmail(email);
+        alert("Sent email");
     };
     return (
         <div className="container mx-auto">
@@ -49,13 +62,23 @@ function Login() {
                     Submit
                 </button>
             </form>
+            {errorElement}
             <p className="text-blue-600">
                 Create a new account?{" "}
                 <span
                     onClick={navigateRegister}
-                    className="cursor-pointer font-bold text-red-400"
+                    className="cursor-pointer font-bold text-green-500"
                 >
                     Registar
+                </span>
+            </p>
+            <p className="text-blue-600">
+                Fotgot Password?{" "}
+                <span
+                    onClick={resetPassword}
+                    className="cursor-pointer font-bold text-red-400"
+                >
+                    Reset password
                 </span>
             </p>
             <SocialLogin />

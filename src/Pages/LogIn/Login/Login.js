@@ -6,17 +6,20 @@ import {
     useSignInWithEmailAndPassword,
 } from "react-firebase-hooks/auth";
 import SocialLogin from "../SocialLogin/SocialLogin";
+import Loading from "../../Home/Sheared/Loading/Loading";
+import toast, { Toaster } from "react-hot-toast";
 
 function Login() {
     const emailRef = useRef("");
     const passwordRef = useRef("");
     const navigate = useNavigate();
-    const [signInWithEmailAndPassword, user, error] =
+    const [signInWithEmailAndPassword, user, loading, error] =
         useSignInWithEmailAndPassword(auth);
     let errorElement;
     if (error) {
         errorElement = <p className="text-red-300">Error: {error.message}</p>;
     }
+
     if (user) {
         navigate("/");
     }
@@ -31,11 +34,16 @@ function Login() {
         navigate("/register");
     };
     const [sendPasswordResetEmail, sending] = useSendPasswordResetEmail(auth);
+    if (loading || sending) {
+        return <Loading />;
+    }
 
     const resetPassword = async () => {
         const email = emailRef.current.value;
-        await sendPasswordResetEmail(email);
-        alert("Sent email");
+        if (email) {
+            await sendPasswordResetEmail(email);
+            toast("Sent email");
+        }
     };
     return (
         <div className="container mx-auto">
@@ -82,6 +90,7 @@ function Login() {
                 </span>
             </p>
             <SocialLogin />
+            <Toaster />
         </div>
     );
 }

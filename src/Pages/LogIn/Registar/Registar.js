@@ -3,15 +3,19 @@ import { useNavigate } from "react-router-dom";
 import auth from "../../../firebase";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import SocialLogin from "../SocialLogin/SocialLogin";
+import Loading from "../../Home/Sheared/Loading/Loading";
 
 function Registar() {
     const [agree, setAgree] = useState(false);
-    const [createUserWithEmailAndPassword] =
+    const [createUserWithEmailAndPassword, loading] =
         useCreateUserWithEmailAndPassword(auth);
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+    if (loading) {
+        return <Loading />;
+    }
     const navigateLogin = () => {
         navigate("/login");
     };
